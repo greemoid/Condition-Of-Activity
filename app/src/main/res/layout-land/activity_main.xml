@@ -24,11 +24,11 @@
         android:id="@+id/btIncrement"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="@string/bt_increment"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btColor"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btColor" />
+        app:layout_constraintTop_toBottomOf="@+id/tvCounter" />
 
     <Button
         android:id="@+id/btColor"
@@ -36,18 +36,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/bt_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btVisibility"
+        app:layout_constraintStart_toEndOf="@id/btIncrement"
         app:layout_constraintTop_toBottomOf="@+id/tvCounter" />
 
     <Button
         android:id="@+id/btVisibility"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="@string/bt_visibility"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btIncrement" />
+        app:layout_constraintStart_toEndOf="@+id/btColor"
+        app:layout_constraintTop_toBottomOf="@+id/tvCounter" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
