@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Condition Of Activity</string>
+    <string name="zero">0</string>
+    <string name="bt_increment">Increment</string>
+    <string name="bt_color">color</string>
+    <string name="bt_visibility">visibility</string>
 </resources>
