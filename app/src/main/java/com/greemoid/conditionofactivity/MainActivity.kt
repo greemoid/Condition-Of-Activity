@@ -4,14 +4,19 @@ import android.graphics.Color
 import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Parcel
+import android.os.Parcelable
 import android.view.View
 import androidx.core.view.isVisible
 import com.greemoid.conditionofactivity.databinding.ActivityMainBinding
+import kotlinx.android.parcel.Parcelize
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var state: State
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,29 +28,59 @@ class MainActivity : AppCompatActivity() {
             btColor.setOnClickListener { setRandomColor() }
             btVisibility.setOnClickListener { changeVisibility() }
         }
+        state = if (savedInstanceState == null) {
+            State (
+                contentValue = 0,
+                textColorValue = getColor(R.color.black),
+                textVisibility = View.VISIBLE
+                    )
+        } else {
+            savedInstanceState.getParcelable(KEY_STATE)!!
+        }
+        renderState()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable(KEY_STATE, state)
     }
 
     private fun changeVisibility() = with(binding) {
-        val visibility = if (tvCounter.isVisible) {
+        state.textVisibility = if (tvCounter.isVisible) {
             View.INVISIBLE
         } else {
             View.VISIBLE
         }
-        tvCounter.visibility = visibility
+        renderState()
     }
 
     private fun setRandomColor() {
-        val textColor = Color.rgb(
+        state.textColorValue = Color.rgb(
             Random.nextInt(256),
             Random.nextInt(256),
             Random.nextInt(256)
         )
-        binding.tvCounter.setTextColor(textColor)
+        renderState()
     }
 
     private fun incrementCounter() {
-        var counter = binding.tvCounter.text.toString().toInt()
-        counter++
-        binding.tvCounter.text = counter.toString()
+        state.contentValue++
+        renderState()
+    }
+
+    private fun renderState() {
+        binding.tvCounter.text = state.contentValue.toString()
+        binding.tvCounter.setTextColor(state.textColorValue)
+        binding.tvCounter.visibility = state.textVisibility
+    }
+
+    @Parcelize
+    class State (
+        var contentValue: Int,
+        var textColorValue: Int,
+        var textVisibility: Int
+        ): Parcelable
+    companion object {
+        @JvmStatic private val KEY_STATE = "STATE"
     }
 }
